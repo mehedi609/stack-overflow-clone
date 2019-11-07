@@ -1,0 +1,39 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito);.counters {
+  margin-right: 30px;
+  font-size: 10px;
+  text-align: center;
+}
+
+.counters strong {
+  display: block;
+  font-size: 2em;
+}
+
+.counters .vote,
+.counters .answer {
+  width: 60px;
+  height: 60px;
+}
+
+.counters .status {
+  padding: 4px;
+}
+
+.counters .status.unanswered {
+  border: none;
+}
+
+.counters .status.answered {
+  border: 1px solid #5fbb7e;
+  color: #5fbb7e;
+}
+
+.counters .status.answer-accepted {
+  background: #5fbb7e;
+  color: #ffffff;
+}
+
+.counters .view {
+  margin-top: 10px;
+}
+
