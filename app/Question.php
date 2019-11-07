@@ -25,6 +25,16 @@ class Question extends Model
     return route('questions.show', $this->id);
   }
 
+  public function getEditAttribute()
+  {
+    return route('questions.edit', $this->id);
+  }
+
+  public function getUpdateAttribute()
+  {
+    return route('questions.update', $this->id);
+  }
+
   public function getCreatedDateAttribute()
   {
     return $this->created_at->diffForHumans();
