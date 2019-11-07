@@ -28,22 +28,23 @@
                        class="form-control @error ('title') is-invalid @enderror" name="title" id="question-title"
                        placeholder="Enter Question Title"
                 >
-                @if ($error->has('title'))
-                    <div class="invalid-feedback">
-                      <strong>{{$error->first('title')}}</strong>
-                    </div>
-                @endif
+                @error ('title')
+                <div class="invalid-feedback">
+                  <strong>{{$message}}</strong>
+                </div>
+                @enderror
               </div>
 
               <div class="form-group">
                 <label for="question-body">Explain your Question</label>
-                <textarea class="form-control @error ('body') is-invalid @enderror" name="body" id="question-body" rows="10"></textarea>
-              </div>
-              @if ($error->has('body'))
+                <textarea class="form-control @error ('body') is-invalid @enderror" name="body" id="question-body"
+                          rows="10"></textarea>
+                @error ('body')
                 <div class="invalid-feedback">
-                  <strong>{{$error->first('body')}}</strong>
+                  <strong>{{$message}}</strong>
                 </div>
-              @endif
+                @enderror
+              </div>
 
               <button type="submit" class="btn btn-outline-primary btn-lg">Ask this Question</button>
             </form>
