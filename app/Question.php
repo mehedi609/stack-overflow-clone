@@ -19,22 +19,26 @@ class Question extends Model
     return $this->hasMany(Answer::class);
   }
 
+  // title Mutators
   public function setTitleAttribute($value)
   {
     $this->attributes['title'] = $value;
     $this->attributes['slug'] = Str::slug($value);
   }
 
+  // $question->url accessor
   public function getUrlAttribute()
   {
     return route('questions.show', $this->slug);
   }
 
+  // $question->body_html accessor
   public function getBodyHtmlAttribute()
   {
     return \Parsedown::instance()->text($this->body);
   }
 
+  // $question->status accessor
   public function getStatusAttribute()
   {
     if ($this->answers_count > 0) {
@@ -45,6 +49,7 @@ class Question extends Model
     return "unanswered";
   }
 
+  // $question->created_date accessor
   public function getCreatedDateAttribute()
   {
     return $this->created_at->diffForHumans();

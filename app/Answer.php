@@ -16,9 +16,16 @@ class Answer extends Model
     return $this->belongsTo(Question::class);
   }
 
+  // $answer->body_html accessor
   public function getBodyHtmlAttribute()
   {
     return \Parsedown::instance()->text($this->body);
+  }
+
+  // $answer->created_date accessor
+  public function getCreatedDateAttribute()
+  {
+    return $this->created_at->diffForHumans();
   }
 
   public static function boot()
