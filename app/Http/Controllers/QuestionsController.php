@@ -61,6 +61,9 @@ class QuestionsController extends Controller
    */
   public function show(Question $question)
   {
+    if (Session::has('success'))
+      Alert::success('Done', Session::get('success'));
+
     $question->increment('views');
     return view('questions.show', compact('question'));
   }
