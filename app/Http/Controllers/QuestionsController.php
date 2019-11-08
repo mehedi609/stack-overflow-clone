@@ -65,11 +65,14 @@ class QuestionsController extends Controller
    *
    * @param \App\Question $question
    * @return \Illuminate\Http\Response
+   * @throws \Illuminate\Auth\Access\AuthorizationException
    */
   public function edit(Question $question)
   {
-    if (Gate::denies('update-question', $question))
-      abort(403, 'Access Denied');
+    /*if (Gate::denies('update-question', $question))
+      abort(403, 'Access Denied');*/
+    $this->authorize('update', $question);
+
     return view('questions.edit', compact('question'));
   }
 
@@ -79,11 +82,13 @@ class QuestionsController extends Controller
    * @param \Illuminate\Http\Request $request
    * @param \App\Question $question
    * @return \Illuminate\Http\Response
+   * @throws \Illuminate\Auth\Access\AuthorizationException
    */
   public function update(CreateQuestionRequest $request, Question $question)
   {
-    if (Gate::denies('update-question', $question))
-      abort(403, 'Access Denied');
+    /*if (Gate::denies('update-question', $question))
+      abort(403, 'Access Denied');*/
+    $this->authorize('update', $question);
 
     $question->update($request->only('title', 'body'));
 
@@ -95,11 +100,14 @@ class QuestionsController extends Controller
    *
    * @param \App\Question $question
    * @return \Illuminate\Http\Response
+   * @throws \Illuminate\Auth\Access\AuthorizationException
    */
   public function destroy(Question $question)
   {
-    if (Gate::denies('delete-question', $question))
-      abort(403, 'Access Denied');
+    /*if (Gate::denies('delete-question', $question))
+      abort(403, 'Access Denied');*/
+
+    $this->authorize('delete', $question);
 
     $question->delete();
 

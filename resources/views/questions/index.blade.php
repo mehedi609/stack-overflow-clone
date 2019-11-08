@@ -42,22 +42,22 @@
                       <a href="{{$question->url}}">{{$question->title}}</a>
                     </h3>
                     <div class="ml-auto">
-                      @if (Auth::user()->can('update-question', $question))
+                      @can ('update', $question)
                         <a href="{{$question->edit}}" class="btn btn-sm btn-outline-info">
                           Edit
                         </a>
-                      @endif
+                      @endcan
 
-                      @if (Auth::user()->can('delete-question', $question))
-                        <form action="{{route('questions.destroy', $question->id)}}" style="display: inline"
-                              method="post">
-                          @method('DELETE')
-                          @csrf
-                          <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure?')">
-                            Delete
-                          </button>
-                        </form>
-                      @endif
+                      @can ('delete', $question)
+                          <form action="{{route('questions.destroy', $question->id)}}" style="display: inline"
+                                method="post">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure?')">
+                              Delete
+                            </button>
+                          </form>
+                      @endcan
                     </div>
                   </div>
                   <p class="lead">
