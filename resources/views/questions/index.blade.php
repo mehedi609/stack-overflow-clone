@@ -42,23 +42,29 @@
                       <a href="{{$question->url}}">{{$question->title}}</a>
                     </h3>
                     <div class="ml-auto">
-                      <a href="{{$question->edit}}" class="btn btn-sm btn-outline-info">
-                        Edit
-                      </a>
-                      <form action="{{route('questions.destroy', $question->id)}}" style="display: inline" method="post">
-                        @method('DELETE')
-                        @csrf
-                        <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure?')">
-                          Delete
-                        </button>
-                      </form>
+                      @if (Auth::user()->can('update-question', $question))
+                        <a href="{{$question->edit}}" class="btn btn-sm btn-outline-info">
+                          Edit
+                        </a>
+                      @endif
+
+                      @if (Auth::user()->can('delete-question', $question))
+                        <form action="{{route('questions.destroy', $question->id)}}" style="display: inline"
+                              method="post">
+                          @method('DELETE')
+                          @csrf
+                          <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure?')">
+                            Delete
+                          </button>
+                        </form>
+                      @endif
                     </div>
                   </div>
                   <p class="lead">
                     Asked by <a href="{{$question->user->url}}">{{$question->user->name}}</a>
                     <small class="text-muted">{{$question->created_date}}</small>
                   </p>
-                  {{\Illuminate\Support\Str::limit($question->body, 250)}}
+                  {{Str::limit($question->body, 250)}}
                 </div>
               </div>
               <hr>

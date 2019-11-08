@@ -24,6 +24,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+      // Using slug instead of id of question to view each question.
         Route::bind('slug', function ($slug) {
           return Question::where('slug', $slug)->first() ?? abort(404);
         });
