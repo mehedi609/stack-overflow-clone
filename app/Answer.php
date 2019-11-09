@@ -33,9 +33,20 @@ class Answer extends Model
   // $answer->status accessor
   public function getStatusAttribute()
   {
-    if ($this->id == $this->question->best_answer_id)
+    if ($this->isBest())
       return 'vote-accepted';
+
     return '';
+  }
+
+  public function getIsBestAttribute()
+  {
+    return $this->isBest();
+  }
+
+  private function isBest()
+  {
+    return $this->id == $this->question->best_answer_id;
   }
 
   public static function boot()

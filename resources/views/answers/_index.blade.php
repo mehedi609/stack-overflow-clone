@@ -21,10 +21,32 @@
                 <a href="#" class="vote-down off" title="This answer is not useful">
                   <i class="fas fa-caret-down fa-3x"></i>
                 </a>
-                <a href="#" class="{{$answer->status}} mt-2"
-                   title="Mark this answer as best answer">
-                  <i class="fas fa-check fa-2x"></i>
-                </a>
+                @can ('accept', $answer)
+                  <a href="#" class="{{$answer->status}} mt-2"
+                     title="Mark this answer as best answer"
+                     onclick="event.preventDefault();
+                       document.getElementById('accept-answer-{{$answer->id}}').submit()"
+                  >
+                    <i class="fas fa-check fa-2x"></i>
+                  </a>
+                  <form
+                    action="{{route('answers.accept', $answer->id)}}"
+                    method="post"
+                    style="display: none"
+                    id="accept-answer-{{$answer->id}}"
+                  >
+                    @csrf
+                  </form>
+
+                  @else
+                  @if ($answer->is_best)
+                    <a href="#" class="{{$answer->status}} mt-2"
+                       title="Question Owner Marked this one as Best Answer"
+                    >
+                      <i class="fas fa-check fa-2x"></i>
+                    </a>
+                  @endif
+                @endcan
               </div>
 
               <div class="media-body">
@@ -36,13 +58,15 @@
                     {{--Edit and Delete Button & functionality--}}
                     <div class="ml-auto">
                       @can ('update', $answer)
-                        <a href="{{route('questions.answers.edit', [$question->id, $answer->id])}}" class="btn btn-sm btn-outline-info">
+                        <a href="{{route('questions.answers.edit', [$question->id, $answer->id])}}"
+                           class="btn btn-sm btn-outline-info">
                           Edit
                         </a>
                       @endcan
 
                       @can ('delete', $answer)
-                        <form action="{{route('questions.answers.destroy', [$question->id, $answer->id])}}" style="display: inline"
+                        <form action="{{route('questions.answers.destroy', [$question->id, $answer->id])}}"
+                              style="display: inline"
                               method="post">
                           @method('DELETE')
                           @csrf
