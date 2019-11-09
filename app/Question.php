@@ -55,7 +55,7 @@ class Question extends Model
     return $this->created_at->diffForHumans();
   }
 
-  public function getEditAttribute()
+  /*public function getEditAttribute()
   {
     return route('questions.edit', $this->id);
   }
@@ -63,5 +63,5 @@ class Question extends Model
   public function getUpdateAttribute()
   {
     return route('questions.update', $this->id);
-  }
+  }*/
 }

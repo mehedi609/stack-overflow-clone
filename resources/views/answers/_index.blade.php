@@ -30,20 +30,50 @@
               <div class="media-body">
                 {!! $answer->body_html !!}
 
-                <div class="float-right">
+                <div class="row">
+                  <div class="col-md-4">
+
+                    {{--Edit and Delete Button & functionality--}}
+                    <div class="ml-auto">
+                      @can ('update', $answer)
+                        <a href="{{route('questions.answers.edit', [$question->id, $answer->id])}}" class="btn btn-sm btn-outline-info">
+                          Edit
+                        </a>
+                      @endcan
+
+                      @can ('delete', $answer)
+                        <form action="{{route('questions.answers.destroy', [$question->id, $answer->id])}}" style="display: inline"
+                              method="post">
+                          @method('DELETE')
+                          @csrf
+                          <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure?')">
+                            Delete
+                          </button>
+                        </form>
+                      @endcan
+                    </div>
+                    {{--EndsEdit and Delete Button & functionality--}}
+                  </div>
+
+                  {{--May be filled later--}}
+                  <div class="col-md-4"></div>
+
+                  {{--Show avatar and name of user who answered--}}
+                  <div class="col-md-4">
                       <span class="text-muted">
                         Answered {{$answer->created_date}}
                       </span>
 
-                  <div class="media mt-2">
-                    <a href="{{$answer->user->url}}" class="pr-2">
-                      <img src="{{$answer->user->avatar}}" alt="user_avatar">
-                    </a>
-
-                    <div class="media-body mt-1">
-                      <a href="{{$answer->user->url}}">
-                        {{$answer->user->name}}
+                    <div class="media mt-2">
+                      <a href="{{$answer->user->url}}" class="pr-2">
+                        <img src="{{$answer->user->avatar}}" alt="user_avatar">
                       </a>
+
+                      <div class="media-body mt-1">
+                        <a href="{{$answer->user->url}}">
+                          {{$answer->user->name}}
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
