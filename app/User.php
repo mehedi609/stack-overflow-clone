@@ -52,6 +52,16 @@ class User extends Authenticatable
       return $this->belongsToMany(Question::class, 'favorites')->withTimestamps();
   }
 
+  public function voteQuestions()
+  {
+      return $this->morphByMany(Question::class, 'votable');
+  }
+
+  public function voteAnswers()
+  {
+      return $this->morphByMany(Answer::class, 'votable');
+  }
+
   // user->url accessor
   public function getUrlAttribute()
   {

@@ -24,6 +24,11 @@ class Question extends Model
       return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
   }
 
+  public function votes()
+  {
+      return $this->morphToMany(User::class, 'votable');
+  }
+
   // title Mutators
   public function setTitleAttribute($value)
   {

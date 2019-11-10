@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFavoritesTable extends Migration
+class CreatePloymorphicVotablesTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class CreateFavoritesTable extends Migration
      */
     public function up()
     {
-        Schema::create('favorites', function (Blueprint $table) {
+        Schema::create('votables', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('question_id')->index();
+            $table->unsignedBigInteger('votable_id');
+            $table->string('votable_type')->nullable();
+            $table->tinyInteger('vote')->comment('-1: down vote, 1: up vote');
             $table->timestamps();
 
-            $table->unique(['user_id', 'question_id']);
+            $table->unique(['user_id', 'votable_id', 'votable_type']);
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('question_id')->references('id')->on('questions')->onUpdate('cascade')->onDelete('cascade');
+
         });
     }
 
@@ -32,6 +34,6 @@ class CreateFavoritesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('favorites');
+        Schema::dropIfExists('votables');
     }
 }
