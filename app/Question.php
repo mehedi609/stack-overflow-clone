@@ -19,6 +19,11 @@ class Question extends Model
     return $this->hasMany(Answer::class);
   }
 
+  public function favorites()
+  {
+      return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
+  }
+
   // title Mutators
   public function setTitleAttribute($value)
   {
@@ -59,6 +64,21 @@ class Question extends Model
   {
     $this->best_answer_id = $answer->id;
     $this->save();
+  }
+
+  private function isFavorited()
+  {
+    return $this->favorites()->where('user_id', auth()->id())->count() > 0;
+  }
+
+  public function getisFavoritedAttribute()
+  {
+    return $this->isFavorited();
+  }
+
+  public function getFavoritesCountAttribute()
+  {
+    return $this->favorites->count();
   }
 
   /*public function getEditAttribute()
