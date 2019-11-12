@@ -23,6 +23,16 @@ class Answer extends Model
       return $this->morphToMany(User::class, 'votable');
   }
 
+  public function upVotes()
+  {
+    return $this->votes()->withPivot('vote', 1);
+  }
+
+  public function downVotes()
+  {
+    return $this->votes()->withPivot('vote', -1);
+  }
+
   // $answer->body_html accessor
   public function getBodyHtmlAttribute()
   {

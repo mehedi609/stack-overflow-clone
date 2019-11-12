@@ -77,6 +77,21 @@ class User extends Authenticatable
     $question->save();
   }
 
+  public function voteAnswer(Answer $answer, $vote)
+  {
+    if ($this->voteAnswers()->where('votable_id', $answer->id)->exists())
+      $this->voteAnswers()->updateExistingPivot($answer, ['vote' => $vote]);
+    else
+      $this->voteAnswers()->attach($answer, ['vote' => $vote]);
+
+    $answer->load('votes');
+    $downVotes = (int)$answer->downVotes()->sum('vote');
+    $upVotes = (int)$answer->upVotes()->sum('vote');
+
+    $answer->votes_count = $upVotes + $downVotes;
+    $answer->save();
+  }
+
   // user->url accessor
   public function getUrlAttribute()
   {

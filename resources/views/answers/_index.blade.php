@@ -14,13 +14,49 @@
 
               {{--Votes Controls for Answer--}}
               <div class="d-flex flex-column vote-controls">
-                <a href="#" class="vote-up" title="This answer is useful">
+
+                {{--Vote Up starts--}}
+                <a
+                  class="vote-up {{Auth::guest() ? 'off' : ''}}"
+                  title="This answer is useful "
+                  onclick="
+                    event.preventDefault();
+                    document.getElementById('vote-up-answer-{{$answer->id}}').submit();
+                    "
+                >
                   <i class="fas fa-caret-up fa-3x"></i>
                 </a>
-                <span class="votes-count">1230</span>
-                <a href="#" class="vote-down off" title="This answer is not useful">
+                <span class="votes-count">{{$answer->votes_count}}</span>
+                {{--Vote Up Hiddle form--}}
+                <form
+                  action="/answers/{{$answer->id}}/vote"
+                  method="post"
+                  id="vote-up-answer-{{$answer->id}}"
+                >
+                  @csrf
+                  <input type="hidden" name="vote" value="1">
+                </form>
+
+                <a
+                  class="vote-down {{Auth::guest() ? 'off' : ''}}"
+                  title="This answer is not useful"
+                  onclick="
+                    event.preventDefault();
+                    document.getElementById('vote-down-answer-{{$answer->id}}').submit();
+                    "
+                >
                   <i class="fas fa-caret-down fa-3x"></i>
                 </a>
+                {{--Vote Down Hiddle form--}}
+                <form
+                  action="/answers/{{$answer->id}}/vote"
+                  method="post"
+                  id="vote-down-answer-{{$answer->id}}"
+                >
+                  @csrf
+                  <input type="hidden" name="vote" value="-1">
+                </form>
+
                 @can ('accept', $answer)
                   <a href="#" class="{{$answer->status}} mt-2"
                      title="Mark this answer as best answer"
