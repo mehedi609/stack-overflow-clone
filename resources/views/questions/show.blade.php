@@ -25,13 +25,57 @@
 
               {{--Votes Controls--}}
               <div class="d-flex flex-column vote-controls">
-                <a href="#" class="vote-up" title="This question is useful">
-                  <i class="fas fa-caret-up fa-3x"></i>
-                </a>
-                <span class="votes-count">1230</span>
-                <a href="#" class="vote-down off" title="This question is not useful">
-                  <i class="fas fa-caret-down fa-3x"></i>
-                </a>
+
+                {{--Vote Up starts--}}
+                <section>
+                  <a
+                    href="#"
+                    class="vote-up {{Auth::guest() ? 'off' : ''}}"
+                    title="This question is useful"
+                    onclick="
+                      event.preventDefault();
+                      document.getElementById('vote-up-question-{{$question->id}}').submit();
+                      "
+                  >
+                    <i class="fas fa-caret-up fa-3x"></i>
+                  </a>
+                  <span class="votes-count">{{$question->votes_count}}</span>
+                  {{--Vote Up Hiddle form--}}
+                  <form
+                    action="/questions/{{$question->id}}/vote"
+                    method="post"
+                    id="vote-up-question-{{$question->id}}"
+                  >
+                    @csrf
+                    <input type="hidden" name="vote" value="1">
+                  </form>
+                </section>
+                {{--Vote Up ends--}}
+
+                {{--Vote Down Starts--}}
+                  <a
+                    href="#"
+                    class="vote-down {{Auth::guest() ? 'off' : ''}}"
+                    title="This question is not useful"
+                    onclick="
+                      event.preventDefault();
+                      document.getElementById('vote-down-question-{{$question->id}}').submit();
+                      "
+                  >
+                    <i class="fas fa-caret-down fa-3x"></i>
+                  </a>
+                  {{--Vote down hiddne Form--}}
+                  <form
+                    action="/questions/{{$question->id}}/vote"
+                    method="post"
+                    id="vote-down-question-{{$question->id}}"
+                  >
+                    @csrf
+                    <input type="hidden" name="vote" value="-1">
+                  </form>
+                </section>
+                {{--Vote Down Ends--}}
+
                 <a href="#"
                    class="favorite mt-2 {{Auth::guest() ? 'off' : ($question->is_favorited ? 'favorited' : '')}}"
                    title="Click to mark as favorite question (click again to undo)"

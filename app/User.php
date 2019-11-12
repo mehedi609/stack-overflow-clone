@@ -54,12 +54,27 @@ class User extends Authenticatable
 
   public function voteQuestions()
   {
-      return $this->morphByMany(Question::class, 'votable');
+      return $this->morphedByMany(Question::class, 'votable');
   }
 
   public function voteAnswers()
   {
-      return $this->morphByMany(Answer::class, 'votable');
+      return $this->morphedByMany(Answer::class, 'votable');
+  }
+
+  public function voteQuestion(Question $question, $vote)
+  {
+    if ($this->voteQuestions()->where('votable_id', $question->id)->exists())
+      $this->voteQuestions()->updateExistingPivot($question, ['vote' => $vote]);
+    else
+      $this->voteQuestions()->attach($question, ['vote' => $vote]);
+
+    $question->load('votes');
+    $downVotes = (int)$question->downVotes()->sum('vote');
+    $upVotes = (int)$question->upVotes()->sum('vote');
+
+    $question->votes_count = $upVotes + $downVotes;
+    $question->save();
   }
 
   // user->url accessor
