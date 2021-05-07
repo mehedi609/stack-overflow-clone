@@ -12,7 +12,7 @@
         "barryvdh/laravel-debugbar": "v3.2.8",
         "barryvdh/laravel-ide-helper": "v2.6.5",
         "fideloper/proxy": "^4.0",
-        "laravel/framework": "5.8.*",
+        "laravel/framework": "6.18.*",
         "laravel/tinker": "^1.0",
         "realrashid/sweet-alert": "v2.0.3"
     },
